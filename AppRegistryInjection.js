@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, AppRegistry} from 'react-native';
+import {StyleSheet, View, AppRegistry, InteractionManager} from 'react-native';
 import StaticContainer from 'react-native/Libraries/Components/StaticContainer';
 // import EventEmitter from 'react-native/Libraries/EventEmitter/EventEmitter';
 
@@ -48,10 +48,16 @@ AppRegistry.registerComponent = function (appKey, getAppComponent) {
                         let item = this.callQueue.shift();
                         this._pushView(item)
                     } else {
-                        this.setState({actView: null})
+                        this._setActView(null)
                     }
                 };
-                this.setState({actView: it});
+                this._setActView(it)
+            };
+
+            _setActView = (it) => {
+                InteractionManager.runAfterInteractions(() => {//等待没有任何动画和触摸的时候再回调
+                    this.setState({actView: it});
+                })
             };
 
 
