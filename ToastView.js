@@ -40,7 +40,6 @@ class ToastView extends Component {
     };
 
     componentDidMount() {
-        console.info("render toast " + this.props.info.message)
         Animated.timing(
             this.bottomAnim,
             {

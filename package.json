@@ -1,6 +1,6 @@
 {
   "name": "react-native-nightfarmer-toast",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Toast Library for React Native apps.",
   "main": "index.js",
   "scripts": {
