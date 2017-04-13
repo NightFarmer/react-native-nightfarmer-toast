@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View, AppRegistry, InteractionManager} from 'react-native';
-import StaticContainer from 'react-native/Libraries/Components/StaticContainer';
+// import StaticContainer from 'react-native/Libraries/Components/StaticContainer';
 // import EventEmitter from 'react-native/Libraries/EventEmitter/EventEmitter';
 
 import RootMask from './RootMask'
@@ -8,7 +8,7 @@ import RootMask from './RootMask'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        position: 'relative'
+        position: 'relative',
     }
 });
 
@@ -23,61 +23,11 @@ AppRegistry.registerComponent = function (appKey, getAppComponent) {
 
         return class extends Component {
 
-            state = {
-                actView: null
-            };
-
-            callQueue = [];
-
-            componentWillMount() {
-                handler.show = this.show;
-            };
-
-            show = (it) => {
-                if (this.state.actView) {
-                    this.callQueue.push(it);
-                    return
-                }
-                this._pushView(it);
-                return it;
-            };
-
-            _pushView = (it) => {
-                it.dismissCallback = () => {
-                    if (this.callQueue.length > 0) {
-                        let item = this.callQueue.shift();
-                        this._pushView(item)
-                    } else {
-                        this._setActView(null)
-                    }
-                };
-                this._setActView(it)
-            };
-
-            _setActView = (it) => {
-                InteractionManager.runAfterInteractions(() => {//等待没有任何动画和触摸的时候再回调
-                    this.setState({actView: it});
-                })
-            };
-
-
-            dismiss = (it) => {
-                it.compRef.dismiss()
-            };
-
             render() {
                 return (
                     <View style={styles.container}>
-                        <StaticContainer shouldUpdate={false}>
-                            <OriginAppComponent {...this.props} />
-                        </StaticContainer>
-                        {
-                            this.state.actView ?
-                                <RootMask>
-                                    {this.state.actView.component}
-                                </RootMask>
-                                : null
-                        }
+                        <OriginAppComponent {...this.props} />
+                        <RootMask handlerShow={(it)=>handler.show=it}/>
                     </View>
                 );
             };
@@ -85,5 +35,4 @@ AppRegistry.registerComponent = function (appKey, getAppComponent) {
     });
 };
 
-let emitter = 1;
 export default handler;
