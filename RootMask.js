@@ -43,9 +43,9 @@ class RootMask extends Component {
     };
 
     _setActView = (it) => {
-        InteractionManager.runAfterInteractions(() => {//等待没有任何动画和触摸的时候再回调
+        // InteractionManager.runAfterInteractions(() => {//等待没有任何动画和触摸的时候再回调
             this.setState({actView: it});
-        })
+        // })
     };
 
 
